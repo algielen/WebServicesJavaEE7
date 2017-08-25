@@ -49,7 +49,7 @@ public class HelloService {
 
 
 	@WebMethod
-	@WebResult(name = "list", partName = "user")
+	@WebResult(name = "user")
 	public List<User> presentEveryone() {
 		List<User> users = Collections.emptyList();
 		Transaction tx = null;
