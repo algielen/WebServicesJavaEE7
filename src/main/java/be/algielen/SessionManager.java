@@ -1,25 +1,28 @@
 package be.algielen;
 
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 
 public enum SessionManager {
 	INSTANCE;
-	private final SessionFactory sessionFactory;
+	private final EntityManagerFactory emf;
 
 	{
-		try {
-			Configuration configuration = new Configuration();
-			configuration.configure();
-
-			sessionFactory = configuration.buildSessionFactory();
-		} catch (Throwable ex) {
-			throw new ExceptionInInitializerError(ex);
-		}
+		emf = Persistence.createEntityManagerFactory("HelloPersistence");
 	}
 
-	public SessionFactory getSessionFactory() {
-		return sessionFactory;
+
+	private EntityManagerFactory getEntityManagerFactory() {
+		return emf;
+	}
+
+	public EntityManager createEntityManager() {
+		return emf.createEntityManager();
+	}
+
+	public static void main(String[] args) {
+		System.out.println("Hello, World");
 	}
 }

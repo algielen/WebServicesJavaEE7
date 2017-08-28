@@ -2,43 +2,34 @@ package be.algielen;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 public class UsersDaoImpl implements UsersDao {
 	private static final Class<User> persistentClass = User.class;
-	private final SessionFactory sessionFactory = SessionManager.INSTANCE.getSessionFactory();
-	private final Session session;
+	private final EntityManager entityManager = SessionManager.INSTANCE.createEntityManager();
 
-	public UsersDaoImpl(Session session) {
-		this.session = session;
+	public UsersDaoImpl() {
 	}
 
 	public User getUser(long id) {
-		return getCurrentSession().get(persistentClass, id);
+		return entityManager.find(persistentClass, id);
 	}
 
 	public User createUser(String name) {
 		User user = new User(name);
-		getCurrentSession().persist(user);
+		entityManager.persist(user);
 		return user;
 	}
 
 	public boolean exists(String name) {
-		Criteria criteria = getCurrentSession().createCriteria(persistentClass);
-		criteria.add(Restrictions.eq("name", name));
-		return criteria.uniqueResult() != null;
+		TypedQuery<User> query = entityManager.createQuery("FROM User u WHERE u.name LIKE ?1", persistentClass);
+		query.setParameter(1, name);
+		List<User> list = query.getResultList();
+		return list.size() == 0;
 	}
 
 	public List<User> findAll() {
-		Criteria criteria = getCurrentSession().createCriteria(persistentClass);
-		return criteria.list();
+		return entityManager.createQuery("FROM User", persistentClass).getResultList();
 	}
-
-	private Session getCurrentSession() {
-		return session;
-	}
-
 }
