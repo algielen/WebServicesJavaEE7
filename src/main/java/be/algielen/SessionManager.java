@@ -3,15 +3,13 @@ package be.algielen;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 
 
 public enum SessionManager {
 	INSTANCE;
-	private final EntityManagerFactory emf;
-
-	{
-		emf = Persistence.createEntityManagerFactory("HelloPersistence");
-	}
+	@PersistenceContext(unitName = "HelloPersistence")
+	private EntityManagerFactory emf;
 
 
 	private EntityManagerFactory getEntityManagerFactory() {

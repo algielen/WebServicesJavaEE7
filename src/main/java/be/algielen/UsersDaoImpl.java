@@ -3,11 +3,13 @@ package be.algielen;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 public class UsersDaoImpl implements UsersDao {
 	private static final Class<User> persistentClass = User.class;
-	private final EntityManager entityManager = SessionManager.INSTANCE.createEntityManager();
+	@PersistenceContext(unitName = "HelloPersistence" )
+	private EntityManager entityManager;
 
 	public UsersDaoImpl() {
 	}
