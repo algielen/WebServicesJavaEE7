@@ -1,6 +1,7 @@
 package be.algielen;
 
 import java.util.List;
+import java.util.concurrent.Future;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -20,6 +21,9 @@ public class HelloService {
 
 	@EJB
 	private HelloBean helloBean;
+
+	@EJB
+	private FileArchiverBean fileArchiverBean;
 
 	@PostConstruct
 	private void init() {
@@ -46,5 +50,27 @@ public class HelloService {
 	public List<User> presentEveryone() {
 		return helloBean.presentEveryone();
 	}
+
+	@WebMethod
+	@WebResult(name = "success")
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	public boolean archive(@WebParam(name = "data") byte[] data, @WebParam(name = "filename") String filename, @WebParam(name = "sub_directory") String subDirectoryName) {
+		boolean result;
+		try {
+			Future<FileArchiverBean.State> future = fileArchiverBean.archive(data, filename, subDirectoryName);
+			FileArchiverBean.State state = future.get();
+			if (state == FileArchiverBean.State.DONE) {
+				result = true;
+			} else {
+				result = false;
+			}
+		} catch (Exception e) {
+			LOGGER.error("Could not retrieve state of the archiving", e);
+			result = false;
+		}
+		return result;
+	}
+
+
 }
 
