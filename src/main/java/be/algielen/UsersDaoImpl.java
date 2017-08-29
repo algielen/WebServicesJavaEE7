@@ -4,12 +4,18 @@ import java.util.List;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 @Local(UsersDao.class)
 @Stateless
+@TransactionManagement(TransactionManagementType.CONTAINER)
+@TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class UsersDaoImpl implements UsersDao {
 	private static final Class<User> persistentClass = User.class;
 	@PersistenceContext(unitName = "HelloPersistence")
@@ -17,6 +23,7 @@ public class UsersDaoImpl implements UsersDao {
 
 	public UsersDaoImpl() {
 	}
+
 
 	public User getUser(long id) {
 		return entityManager.find(persistentClass, id);
