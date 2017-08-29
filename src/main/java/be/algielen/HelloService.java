@@ -11,8 +11,13 @@ import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @WebService
 public class HelloService {
+	private final static Logger LOGGER = LoggerFactory.getLogger(HelloService.class);
+
 	@EJB
 	private HelloBean helloBean;
 
@@ -23,6 +28,7 @@ public class HelloService {
 	@WebMethod
 	@WebResult(name = "response")
 	public String sayHello(@WebParam(name = "name") String name) {
+		LOGGER.info("Hello !");
 		return "Hello " + name;
 	}
 

@@ -14,10 +14,14 @@ import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.jws.WebParam;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Stateless
 @Local(HelloBean.class)
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class HelloBeanImpl implements HelloBean {
+	private final static Logger LOGGER = LoggerFactory.getLogger(HelloBeanImpl.class);
 	@EJB
 	private UsersDao dao;
 	@Resource
@@ -35,6 +39,7 @@ public class HelloBeanImpl implements HelloBean {
 				result = false;
 			}
 		} catch (Exception e) {
+			LOGGER.error("Could not add user", e);
 			context.setRollbackOnly();
 		}
 
@@ -48,6 +53,7 @@ public class HelloBeanImpl implements HelloBean {
 		try {
 			users = dao.findAll();
 		} catch (Exception e) {
+			LOGGER.error("Could not retrieve users list", e);
 			context.setRollbackOnly();
 		}
 		return users;
@@ -59,6 +65,7 @@ public class HelloBeanImpl implements HelloBean {
 		try {
 			result = !dao.exists(name);
 		} catch (Exception e) {
+			LOGGER.error("Could not check if user exists", e);
 			context.setRollbackOnly();
 		}
 		return result;
