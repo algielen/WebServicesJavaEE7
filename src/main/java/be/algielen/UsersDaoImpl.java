@@ -2,13 +2,17 @@ package be.algielen;
 
 import java.util.List;
 
+import javax.ejb.Local;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+@Local(UsersDao.class)
+@Stateless
 public class UsersDaoImpl implements UsersDao {
 	private static final Class<User> persistentClass = User.class;
-	@PersistenceContext(unitName = "HelloPersistence" )
+	@PersistenceContext(unitName = "HelloPersistence")
 	private EntityManager entityManager;
 
 	public UsersDaoImpl() {
@@ -28,7 +32,7 @@ public class UsersDaoImpl implements UsersDao {
 		TypedQuery<User> query = entityManager.createQuery("FROM User u WHERE u.name LIKE ?1", persistentClass);
 		query.setParameter(1, name);
 		List<User> list = query.getResultList();
-		return list.size() == 0;
+		return list.size() > 0;
 	}
 
 	public List<User> findAll() {
