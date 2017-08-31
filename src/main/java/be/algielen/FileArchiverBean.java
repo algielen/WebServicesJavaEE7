@@ -1,10 +1,10 @@
 package be.algielen;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Properties;
 import java.util.concurrent.Future;
 
@@ -15,14 +15,14 @@ import javax.ejb.ConcurrencyManagement;
 import javax.ejb.ConcurrencyManagementType;
 import javax.ejb.Lock;
 import javax.ejb.LockType;
-import javax.ejb.Stateful;
+import javax.ejb.Singleton;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 // TODO : move java.io out of EJB
-@Stateful
-@ConcurrencyManagement(ConcurrencyManagementType.BEAN)
+@Singleton
+@ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
 public class FileArchiverBean {
 	private final static Logger LOGGER = LoggerFactory.getLogger(FileArchiverBean.class);
 
@@ -58,8 +58,9 @@ public class FileArchiverBean {
 				subDirectory.mkdir();
 			}
 			File file = new File(subDirectory, filename);
-			BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(file));
+			OutputStream outputStream = new FileOutputStream(file);
 			outputStream.write(data);
+			outputStream.close();
 			state = State.DONE;
 		} catch (IOException e) {
 			state = State.FAILURE;

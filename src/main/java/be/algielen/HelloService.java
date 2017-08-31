@@ -11,11 +11,13 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
+import javax.xml.ws.soap.MTOM;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @WebService
+@MTOM(threshold = 1024)
 public class HelloService {
 	private final static Logger LOGGER = LoggerFactory.getLogger(HelloService.class);
 
