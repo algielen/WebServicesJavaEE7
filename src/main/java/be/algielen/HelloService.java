@@ -56,10 +56,11 @@ public class HelloService {
 	@WebMethod
 	@WebResult(name = "success")
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-	public boolean archive(@WebParam(name = "data") byte[] data, @WebParam(name = "filename") String filename, @WebParam(name = "sub_directory") String subDirectoryName) {
+	public boolean archive(@WebParam(name = "data") byte[] data, @WebParam(name = "filename") String filename, @WebParam(name = "type") String type, @WebParam(name = "sub_directory") String subDirectoryName) {
 		boolean result;
 		try {
-			Future<FileArchiverBean.State> future = fileArchiverBean.archive(data, filename, subDirectoryName);
+			String fullname = sanitizeForFilesystem(filename) + "." + sanitizeForFilesystem(type);
+			Future<FileArchiverBean.State> future = fileArchiverBean.archive(data, fullname, sanitizeForFilesystem(subDirectoryName));
 			FileArchiverBean.State state = future.get();
 			if (state == FileArchiverBean.State.DONE) {
 				result = true;
@@ -71,6 +72,10 @@ public class HelloService {
 			result = false;
 		}
 		return result;
+	}
+
+	private String sanitizeForFilesystem(@WebParam(name = "filename") String filename) {
+		return filename.replaceAll("\\W+", "");
 	}
 
 

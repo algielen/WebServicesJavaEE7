@@ -51,7 +51,6 @@ public class FileArchiverBean {
 	@Asynchronous
 	public Future<State> archive(byte[] data, String filename, String subDirectoryName) {
 		State state;
-		// TODO : clean subdir and name
 		try {
 			File subDirectory = new File(rootDirectory, subDirectoryName);
 			if (!subDirectory.exists()) {
