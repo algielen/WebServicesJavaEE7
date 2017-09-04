@@ -1,4 +1,4 @@
-package be.algielen;
+package be.algielen.soap;
 
 import java.util.List;
 import java.util.concurrent.Future;
@@ -15,6 +15,10 @@ import javax.xml.ws.soap.MTOM;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import be.algielen.domain.User;
+import be.algielen.services.FileArchiverBean;
+import be.algielen.services.HelloBean;
 
 @WebService
 @MTOM(threshold = 1024)

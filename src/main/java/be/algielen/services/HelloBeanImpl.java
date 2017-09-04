@@ -1,4 +1,4 @@
-package be.algielen;
+package be.algielen.services;
 
 import java.util.Collections;
 import java.util.List;
@@ -16,6 +16,8 @@ import javax.jws.WebParam;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import be.algielen.domain.User;
 
 @Stateless
 @Local(HelloBean.class)
@@ -43,6 +45,32 @@ public class HelloBeanImpl implements HelloBean {
 			context.setRollbackOnly();
 		}
 
+		return result;
+	}
+
+	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	public User getUser(long id) {
+		User result = null;
+		try {
+			result = dao.getUser(id);
+		} catch (Exception e) {
+			LOGGER.error("Could not get user " + id, e);
+			context.setRollbackOnly();
+		}
+		return result;
+	}
+
+	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	public User getUser(String name) {
+		User result = null;
+		try {
+			result = dao.getUser(name);
+		} catch (Exception e) {
+			LOGGER.error("Could not get user " + name, e);
+			context.setRollbackOnly();
+		}
 		return result;
 	}
 
