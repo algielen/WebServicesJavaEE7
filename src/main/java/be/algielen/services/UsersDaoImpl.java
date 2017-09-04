@@ -1,7 +1,7 @@
 package be.algielen.services;
 
+import be.algielen.domain.User;
 import java.util.List;
-
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -11,8 +11,6 @@ import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-
-import be.algielen.domain.User;
 
 @Local(UsersDao.class)
 @Stateless
@@ -35,7 +33,10 @@ public class UsersDaoImpl implements UsersDao {
 		TypedQuery<User> query = entityManager.createQuery("FROM User u WHERE u.name = ?1 ORDER BY u.id ASC", persistentClass);
 		query.setParameter(1, name);
 		List<User> list = query.getResultList();
-		return list.get(0);
+        if (list == null || list.size() == 0) {
+            return null;
+        }
+        return list.get(0);
 	}
 
 
