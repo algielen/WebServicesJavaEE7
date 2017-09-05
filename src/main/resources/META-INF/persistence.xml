@@ -6,17 +6,18 @@
 			 version="2.1">
 	<persistence-unit name="HelloPersistence" transaction-type="JTA">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<jta-data-source>java:/H2DS</jta-data-source>
 		<class>be.algielen.domain.User</class>
 		<properties>
-			<property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
-			<property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test;DB_CLOSE_DELAY=-1"/>
+			<!--<property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:h2:/helloservice/h2db"/>
 			<property name="javax.persistence.jdbc.user" value=""/>
-			<property name="javax.persistence.jdbc.password" value=""/>
+			<property name="javax.persistence.jdbc.password" value=""/> -->
 			
 			<property name="hibernate.show_sql" value="true"/>
 			<property name="hibernate.format_sql" value="true"/>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
-			<property name="hibernate.hbm2ddl.auto" value="create"/>
+			<property name="hibernate.hbm2ddl.auto" value="update"/>
 
 			<property name="hibernate.c3p0.min_size" value="5"/>
 			<property name="hibernate.c3p0.max_size" value="20"/>

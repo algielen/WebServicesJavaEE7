@@ -81,7 +81,5 @@ public class HelloService {
 	private String sanitizeForFilesystem(@WebParam(name = "filename") String filename) {
 		return filename.replaceAll("\\W+", "");
 	}
-
-
 }
 
