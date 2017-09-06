@@ -1,0 +1,11 @@
+<resources>
+  <Resource id="H2DS" type="javax.sql.DataSource">
+    jdbcDriver = org.h2.Driver
+    jdbcUrl = jdbc:h2:~/h2/hello
+    jtaManaged = true
+    username =
+    password =
+    maxActive = 20
+    maxIdle = 10
+  </Resource>
+</resources>
