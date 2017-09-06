@@ -1,17 +1,17 @@
 package be.algielen.services;
 
+import be.algielen.domain.User;
 import java.util.List;
 
-import be.algielen.domain.User;
-
 public interface UsersDao {
-	User getUser(long id);
 
-	User getUser(String name);
+    User getUser(long id);
 
-	User createUser(String name);
+    User getUser(String name);
 
-	boolean exists(String name);
+    User createUser(String name);
 
-	List<User> findAll();
+    boolean exists(String name);
+
+    List<User> findAll();
 }

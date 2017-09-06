@@ -1,20 +1,18 @@
 package be.algielen.services;
 
+import be.algielen.domain.User;
 import java.util.List;
-
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.jws.WebParam;
 import javax.transaction.Transactional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import be.algielen.domain.User;
 
 @RequestScoped
 @Transactional(value = Transactional.TxType.REQUIRES_NEW)
 public class HelloBeanImpl implements HelloBean {
+
 	private final static Logger LOGGER = LoggerFactory.getLogger(HelloBeanImpl.class);
 	@Inject
 	private UsersDao dao;

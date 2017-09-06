@@ -13,26 +13,27 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "hello_users")
 @XmlRootElement
 public class User {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@XmlAttribute(name = "id")
-	private long id;
 
-	@XmlAttribute(name = "name")
-	private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @XmlAttribute(name = "id")
+    private long id;
 
-	public User(String name) {
-		this.name = name;
-	}
+    @XmlAttribute(name = "name")
+    private String name;
 
-	public User() {
-	}
+    public User(String name) {
+        this.name = name;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public User() {
+    }
 
-	public long getId() {
-		return id;
-	}
+    public String getName() {
+        return name;
+    }
+
+    public long getId() {
+        return id;
+    }
 }

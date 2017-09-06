@@ -1,7 +1,8 @@
 package be.algielen.rest;
 
+import be.algielen.domain.User;
+import be.algielen.services.HelloBean;
 import java.util.List;
-
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -14,12 +15,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import be.algielen.domain.User;
-import be.algielen.services.HelloBean;
-
 // TODO proper responses
 @Path("users")
 public class UsersRest {
+
 	@Context
 	private UriInfo context;
 
