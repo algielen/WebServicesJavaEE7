@@ -2,7 +2,7 @@ package be.algielen.rest;
 
 import java.util.List;
 
-import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -23,7 +23,7 @@ public class UsersRest {
 	@Context
 	private UriInfo context;
 
-	@EJB
+	@Inject
 	private HelloBean helloBean;
 
 	public UsersRest() {

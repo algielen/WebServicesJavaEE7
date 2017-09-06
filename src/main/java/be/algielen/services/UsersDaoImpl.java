@@ -1,22 +1,19 @@
 package be.algielen.services;
 
-import be.algielen.domain.User;
+import java.io.Serializable;
 import java.util.List;
-import javax.ejb.Local;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
+
+import javax.enterprise.context.SessionScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 
-@Local(UsersDao.class)
-@Stateless
-@TransactionManagement(TransactionManagementType.CONTAINER)
-@TransactionAttribute(TransactionAttributeType.MANDATORY)
-public class UsersDaoImpl implements UsersDao {
+import be.algielen.domain.User;
+
+@SessionScoped
+@Transactional(value = Transactional.TxType.REQUIRED)
+public class UsersDaoImpl implements UsersDao, Serializable {
 	private static final Class<User> persistentClass = User.class;
 	@PersistenceContext(unitName = "HelloPersistence")
 	private EntityManager entityManager;

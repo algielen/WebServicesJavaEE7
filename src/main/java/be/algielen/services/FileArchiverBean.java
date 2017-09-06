@@ -15,13 +15,12 @@ import javax.ejb.ConcurrencyManagement;
 import javax.ejb.ConcurrencyManagementType;
 import javax.ejb.Lock;
 import javax.ejb.LockType;
-import javax.ejb.Singleton;
+import javax.enterprise.context.ApplicationScoped;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO : move java.io out of EJB
-@Singleton
+@ApplicationScoped
 @ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
 public class FileArchiverBean {
 	private final static Logger LOGGER = LoggerFactory.getLogger(FileArchiverBean.class);
@@ -31,6 +30,7 @@ public class FileArchiverBean {
 	public enum State {WAITING, STARTING, PROCESSING, FAILURE, DONE}
 
 	@PostConstruct
+	@Lock(LockType.WRITE)
 	private void init() {
 		try {
 			InputStream file = this.getClass().getResourceAsStream("/archiving.properties");
@@ -38,12 +38,11 @@ public class FileArchiverBean {
 			properties.load(file);
 			String rootPath = properties.getProperty("rootPath");
 			rootDirectory = new File(rootPath);
-			if (!rootDirectory.exists()) {
-				rootDirectory.mkdir();
-			}
+			ensureFolderExists(rootDirectory);
 		} catch (IOException e) {
 			LOGGER.error("Failed to load root archiving directory from properties", e);
-			rootDirectory = new File("C:/temp/archiving-not-found/");
+			rootDirectory = createBackupFolder();
+
 		}
 	}
 
@@ -53,9 +52,7 @@ public class FileArchiverBean {
 		State state;
 		try {
 			File subDirectory = new File(rootDirectory, subDirectoryName);
-			if (!subDirectory.exists()) {
-				subDirectory.mkdir();
-			}
+			ensureFolderExists(subDirectory);
 			File file = new File(subDirectory, filename);
 			OutputStream outputStream = new FileOutputStream(file);
 			outputStream.write(data);
@@ -65,7 +62,27 @@ public class FileArchiverBean {
 			state = State.FAILURE;
 			LOGGER.error("Could not write file", e);
 		}
-		return new AsyncResult<State>(state);
+		return new AsyncResult<>(state);
+	}
+
+	private void ensureFolderExists(File folder) throws IOException {
+		if (!folder.exists()) {
+			if (!folder.mkdirs()) {
+				throw new IOException("Folder cannot be created at " + rootDirectory.getPath());
+			}
+		} else if (folder.exists() && !folder.isDirectory()) {
+			throw new IOException("Folder already exists but is a file");
+		}
+	}
+
+	private File createBackupFolder() {
+		try {
+			File directory = new File("~/archiving-not-found/");
+			ensureFolderExists(rootDirectory);
+			return directory;
+		} catch (Exception e) {
+			throw new RuntimeException("Could not create backup folder");
+		}
 	}
 
 }

@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.concurrent.Future;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.inject.Inject;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -25,11 +25,11 @@ import be.algielen.services.HelloBean;
 public class HelloService {
 	private final static Logger LOGGER = LoggerFactory.getLogger(HelloService.class);
 
-	@EJB
+	@Inject
 	private HelloBean helloBean;
 
-	@EJB
-	private FileArchiverBean fileArchiverBean;
+	@Inject
+	private FileArchiverBean fileArchiverBean = null;
 
 	@PostConstruct
 	private void init() {

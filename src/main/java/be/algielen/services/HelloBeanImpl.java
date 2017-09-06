@@ -1,101 +1,56 @@
 package be.algielen.services;
 
-import java.util.Collections;
 import java.util.List;
 
-import javax.annotation.Resource;
-import javax.ejb.EJB;
-import javax.ejb.Local;
-import javax.ejb.SessionContext;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
+import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
 import javax.jws.WebParam;
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import be.algielen.domain.User;
 
-@Stateless
-@Local(HelloBean.class)
-@TransactionManagement(TransactionManagementType.CONTAINER)
+@RequestScoped
+@Transactional(value = Transactional.TxType.REQUIRES_NEW)
 public class HelloBeanImpl implements HelloBean {
 	private final static Logger LOGGER = LoggerFactory.getLogger(HelloBeanImpl.class);
-	@EJB
+	@Inject
 	private UsersDao dao;
-	@Resource
-	private SessionContext context;
+
+	public HelloBeanImpl() {
+	}
 
 	@Override
-	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public boolean addUser(@WebParam(name = "name") String name) {
 		boolean result = false;
-		try {
-			if (usernameIsFree(name)) {
-				User user = dao.createUser(name);
-				result = true;
-			} else {
-				result = false;
-			}
-		} catch (Exception e) {
-			LOGGER.error("Could not add user", e);
-			context.setRollbackOnly();
+		if (usernameIsFree(name)) {
+			User user = dao.createUser(name);
+			result = true;
+		} else {
+			result = false;
 		}
-
 		return result;
 	}
 
 	@Override
-	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public User getUser(long id) {
-		User result = null;
-		try {
-			result = dao.getUser(id);
-		} catch (Exception e) {
-			LOGGER.error("Could not get user " + id, e);
-			context.setRollbackOnly();
-		}
-		return result;
+		return dao.getUser(id);
 	}
 
 	@Override
-	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public User getUser(String name) {
-		User result = null;
-		try {
-			result = dao.getUser(name);
-		} catch (Exception e) {
-			LOGGER.error("Could not get user " + name, e);
-			context.setRollbackOnly();
-		}
-		return result;
+		return dao.getUser(name);
 	}
 
 	@Override
-	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public List<User> presentEveryone() {
-		List<User> users = Collections.emptyList();
-		try {
-			users = dao.findAll();
-		} catch (Exception e) {
-			LOGGER.error("Could not retrieve users list", e);
-			context.setRollbackOnly();
-		}
-		return users;
+		return dao.findAll();
 	}
 
-	@TransactionAttribute(TransactionAttributeType.MANDATORY)
-	private boolean usernameIsFree(String name) {
-		boolean result = false;
-		try {
-			result = !dao.exists(name);
-		} catch (Exception e) {
-			LOGGER.error("Could not check if user exists", e);
-			context.setRollbackOnly();
-		}
-		return result;
+	@Transactional(value = Transactional.TxType.REQUIRED)
+	boolean usernameIsFree(String name) {
+		return !dao.exists(name);
 	}
 }
