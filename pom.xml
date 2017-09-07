@@ -135,7 +135,7 @@
               <url>http://localhost:8080/manager/text</url>
               <server>tomcat7</server>
               <update>true</update>
-              <path>/${project.artifactId}</path>
+              <path>/helloservice</path>
             </configuration>
           </plugin>
         </plugins>

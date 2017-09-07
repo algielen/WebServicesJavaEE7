@@ -31,6 +31,7 @@ public class FileArchiverBean {
             File subDirectory = new File(rootDirectory, subDirectoryName);
             FileUtils.ensureFolderExists(rootDirectory, subDirectory);
             File file = new File(subDirectory, filename);
+            LOGGER.info("Writing new archive at : " + file.getPath());
             OutputStream outputStream = new FileOutputStream(file);
             outputStream.write(data);
             outputStream.close();

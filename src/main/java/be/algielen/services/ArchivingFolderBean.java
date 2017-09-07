@@ -15,6 +15,7 @@ public class ArchivingFolderBean {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(ArchivingFolderBean.class);
     private static final String backupDir = "~/archiving-not-found/";
+    private final String userHome = System.getProperty("user.home");
     private File rootDirectory;
 
     @PostConstruct
@@ -24,6 +25,7 @@ public class ArchivingFolderBean {
             Properties properties = new Properties();
             properties.load(file);
             String rootPath = properties.getProperty("rootPath");
+            rootPath = rootPath.replace("~", userHome);
             rootDirectory = new File(rootPath);
             FileUtils.ensureFolderExists(rootDirectory, rootDirectory);
         } catch (IOException e) {
@@ -39,8 +41,10 @@ public class ArchivingFolderBean {
 
     private File createBackupFolder() {
         try {
-            File directory = new File(backupDir);
+            String backupDirWithHome = backupDir.replace("~", userHome);
+            File directory = new File(backupDirWithHome);
             FileUtils.ensureFolderExists(rootDirectory, rootDirectory);
+            rootDirectory = directory;
             return directory;
         } catch (Exception e) {
             throw new RuntimeException("Could not create backup folder");

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app>
   <servlet>
-    <servlet-name>HelloService</servlet-name>
+    <servlet-name>SoapService</servlet-name>
     <servlet-class>be.algielen.soap.HelloService</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>HelloService</servlet-name>
-    <url-pattern>/HelloService/*</url-pattern>
+    <servlet-name>SoapService</servlet-name>
+    <url-pattern>/soap/*</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>30</session-timeout>
