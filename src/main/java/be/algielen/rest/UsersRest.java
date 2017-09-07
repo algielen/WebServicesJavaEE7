@@ -1,7 +1,7 @@
 package be.algielen.rest;
 
 import be.algielen.domain.User;
-import be.algielen.services.HelloBean;
+import be.algielen.services.UsersBean;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -23,7 +23,7 @@ public class UsersRest {
 	private UriInfo context;
 
 	@Inject
-	private HelloBean helloBean;
+    private UsersBean usersBean;
 
 	public UsersRest() {
 	}
@@ -32,15 +32,15 @@ public class UsersRest {
 	@Produces(MediaType.APPLICATION_XML)
 	@Path("/{name}")
 	public Response getUser(@PathParam("name") String name) {
-		return Response.ok(helloBean.getUser(name)).build();
-	}
+        return Response.ok(usersBean.getUser(name)).build();
+    }
 
 	@POST
 	@Produces(MediaType.APPLICATION_XML)
 	@Path("/{name}")
 	public Response addUser(@PathParam("name") String name) {
-		boolean success = helloBean.addUser(name);
-		if (success) {
+        boolean success = usersBean.addUser(name);
+        if (success) {
 			return Response.ok().build();
 		} else {
 			return Response.status(Response.Status.CONFLICT).build();
@@ -50,8 +50,8 @@ public class UsersRest {
 	@GET
 	@Produces(MediaType.APPLICATION_XML)
 	public Response getUsers() {
-		List<User> users = helloBean.presentEveryone();
-		GenericEntity<List<User>> list = new GenericEntity<List<User>>(users) {
+        List<User> users = usersBean.getUsers();
+        GenericEntity<List<User>> list = new GenericEntity<List<User>>(users) {
 		};
 		return Response.ok(list).build();
 	}

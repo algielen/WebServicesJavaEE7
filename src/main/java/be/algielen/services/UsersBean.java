@@ -3,7 +3,7 @@ package be.algielen.services;
 import be.algielen.domain.User;
 import java.util.List;
 
-public interface HelloBean {
+public interface UsersBean {
 
     boolean addUser(String name);
 
@@ -11,5 +11,5 @@ public interface HelloBean {
 
     User getUser(String name);
 
-    List<User> presentEveryone();
+    List<User> getUsers();
 }
