@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app>
+  <!-- SERVLETS -->
   <servlet>
     <servlet-name>SoapService</servlet-name>
     <servlet-class>be.algielen.soap.HelloService</servlet-class>
@@ -8,6 +9,8 @@
     <servlet-name>SoapService</servlet-name>
     <url-pattern>/soap/*</url-pattern>
   </servlet-mapping>
+
+  <!-- SECURITY -->
   <session-config>
     <session-timeout>30</session-timeout>
   </session-config>

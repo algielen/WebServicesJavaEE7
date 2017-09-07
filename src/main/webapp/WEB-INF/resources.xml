@@ -1,4 +1,5 @@
 <resources>
+  <!-- Datasource for Apache TomEE+ -->
   <Resource id="H2DS" type="javax.sql.DataSource">
     jdbcDriver = org.h2.Driver
     jdbcUrl = jdbc:h2:~/h2/hello
