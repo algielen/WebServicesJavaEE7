@@ -1,6 +1,6 @@
 package be.algielen.messaging;
 
-import be.algielen.services.FileArchiveWorker;
+import java.util.concurrent.Future;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.ActivationConfigProperty;
@@ -39,7 +39,7 @@ public class ArchivingReceiver implements MessageListener {
     private MessageDrivenContext mdc;
 
     @Inject
-    private FileArchiveWorker worker;
+    private ArchivingExecutor executor;
 
     public ArchivingReceiver() {
     }
@@ -55,7 +55,7 @@ public class ArchivingReceiver implements MessageListener {
             Long whiteboardId = message.getBody(Long.class);
             LOGGER.info("Received async message for " + whiteboardId);
             if (whiteboardId != null) {
-                worker.accept(whiteboardId);
+                Future<Boolean> accept = executor.accept(whiteboardId);
             }
         } catch (JMSException e) {
             LOGGER.error("Failed to process message", e);
