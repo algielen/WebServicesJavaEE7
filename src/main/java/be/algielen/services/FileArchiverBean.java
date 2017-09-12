@@ -3,6 +3,7 @@ package be.algielen.services;
 import be.algielen.dal.DocumentDao;
 import be.algielen.dal.DocumentWhiteboardDao;
 import be.algielen.domain.Document;
+import be.algielen.messaging.ArchivingSender;
 import be.algielen.messaging.DocumentWhiteboard;
 import java.util.Collections;
 import java.util.Date;
@@ -21,6 +22,9 @@ public class FileArchiverBean {
 
     @Inject
     private ArchivingFolderBean archivingFolderBean;
+
+    @Inject
+    private ArchivingSender archivingSender;
 
     @Inject
     private DocumentDao documentDao;
@@ -46,7 +50,7 @@ public class FileArchiverBean {
             whiteboard.setState(DocumentWhiteboard.State.WAITING);
             documentWhiteboardDao.persist(whiteboard);
 
-            // TODO send message
+            archivingSender.sendMessage(whiteboard.getId());
 
             result = true;
         } catch (Exception e) {
