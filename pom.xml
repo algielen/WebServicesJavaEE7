@@ -11,11 +11,13 @@
   <properties>
     <java.version>1.8</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <deployment.path>/helloservice</deployment.path>
+    <profile.name>default</profile.name>
   </properties>
 
   <packaging>war</packaging>
   <build>
-    <finalName>${project.artifactId}.${project.activeProfiles[0].id}</finalName>
+    <finalName>${project.artifactId}.${profile.name}</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -65,6 +67,9 @@
   <profiles>
     <profile>
       <id>wildfly</id>
+      <properties>
+        <profile.name>wildfly</profile.name>
+      </properties>
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
@@ -102,12 +107,18 @@
             <groupId>org.wildfly.plugins</groupId>
             <artifactId>wildfly-maven-plugin</artifactId>
             <version>1.2.0.Final</version>
+            <configuration>
+              <!--<name>${deployment.path}</name> -->
+            </configuration>
           </plugin>
         </plugins>
       </build>
     </profile>
     <profile>
       <id>tomee-plus</id>
+      <properties>
+        <profile.name>tomee-plus</profile.name>
+      </properties>
       <dependencies>
         <dependency>
           <groupId>org.hibernate</groupId>
@@ -135,7 +146,7 @@
               <url>http://localhost:8080/manager/text</url>
               <server>tomcat7</server>
               <update>true</update>
-              <path>/helloservice</path>
+              <path>${deployment.path}</path>
             </configuration>
           </plugin>
         </plugins>

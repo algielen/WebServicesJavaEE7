@@ -1,4 +1,4 @@
-package be.algielen.services;
+package be.algielen.dal;
 
 import be.algielen.domain.User;
 import java.util.List;

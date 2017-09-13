@@ -1,5 +1,6 @@
 package be.algielen.services;
 
+import be.algielen.dal.UsersDao;
 import be.algielen.domain.User;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
@@ -11,14 +12,14 @@ import org.slf4j.LoggerFactory;
 
 @RequestScoped
 @Transactional(value = Transactional.TxType.REQUIRES_NEW)
-public class HelloBeanImpl implements HelloBean {
+public class UsersBeanImpl implements UsersBean {
 
-	private final static Logger LOGGER = LoggerFactory.getLogger(HelloBeanImpl.class);
-	@Inject
+    private final static Logger LOGGER = LoggerFactory.getLogger(UsersBeanImpl.class);
+    @Inject
 	private UsersDao dao;
 
-	public HelloBeanImpl() {
-	}
+    public UsersBeanImpl() {
+    }
 
 	@Override
 	public boolean addUser(@WebParam(name = "name") String name) {
@@ -43,8 +44,8 @@ public class HelloBeanImpl implements HelloBean {
 	}
 
 	@Override
-	public List<User> presentEveryone() {
-		return dao.findAll();
+    public List<User> getUsers() {
+        return dao.findAll();
 	}
 
 	@Transactional(value = Transactional.TxType.REQUIRED)

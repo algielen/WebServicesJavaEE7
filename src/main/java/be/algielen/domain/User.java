@@ -13,7 +13,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "hello_users")
 @XmlRootElement
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @XmlAttribute(name = "id")

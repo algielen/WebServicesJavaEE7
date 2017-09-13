@@ -8,14 +8,16 @@
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
     <jta-data-source>H2DS</jta-data-source>
     <class>be.algielen.domain.User</class>
+    <class>be.algielen.domain.Document</class>
+    <class>be.algielen.messaging.DocumentWhiteboard</class>
     <properties>
       <!--<property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
       <property name="javax.persistence.jdbc.url" value="jdbc:h2:/helloservice/h2db"/>
       <property name="javax.persistence.jdbc.user" value=""/>
       <property name="javax.persistence.jdbc.password" value=""/> -->
 
-      <property name="hibernate.show_sql" value="true"/>
-      <property name="hibernate.format_sql" value="true"/>
+      <property name="hibernate.show_sql" value="false"/>
+      <property name="hibernate.format_sql" value="false"/>
       <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
       <property name="hibernate.hbm2ddl.auto" value="update"/>
 

@@ -14,4 +14,8 @@ public class FileUtils {
             throw new IOException("Folder already exists but is a file");
         }
     }
+
+    public static String sanitizeForFilesystem(String filename) {
+        return filename.replaceAll("\\W+", "");
+    }
 }
