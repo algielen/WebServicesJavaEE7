@@ -5,6 +5,7 @@ import be.algielen.dal.DocumentWhiteboardDao;
 import be.algielen.domain.Document;
 import be.algielen.messaging.ArchivingSender;
 import be.algielen.messaging.DocumentWhiteboard;
+import be.algielen.messaging.State;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -47,7 +48,7 @@ public class FileArchiverBean {
             DocumentWhiteboard whiteboard = new DocumentWhiteboard();
             whiteboard.setInsertionTime(now);
             whiteboard.setObject(document);
-            whiteboard.setState(DocumentWhiteboard.State.WAITING);
+            whiteboard.setState(State.WAITING);
             documentWhiteboardDao.persist(whiteboard);
 
             archivingSender.sendMessage(whiteboard.getId());

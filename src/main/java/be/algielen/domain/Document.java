@@ -8,17 +8,25 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
 
 //TODO size and hash
 @Entity
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.NONE)
 public class Document {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected long id;
     @Column
+    @XmlAttribute
     private String filename;
     @Column
+    @XmlAttribute
     private String extension;
 
     @Basic(fetch = FetchType.LAZY)

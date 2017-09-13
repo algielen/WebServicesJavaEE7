@@ -1,13 +1,11 @@
 package be.algielen.soap;
 
-import be.algielen.domain.Document;
 import be.algielen.domain.User;
 import be.algielen.messaging.DocumentWhiteboard;
 import be.algielen.services.FileArchiverBean;
 import be.algielen.services.UsersBean;
 import be.algielen.utils.FileUtils;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.jws.WebMethod;
@@ -80,12 +78,9 @@ public class HelloService {
     @WebMethod
     @WebResult(name = "whiteboard_filenames")
     @Transactional(TxType.REQUIRES_NEW)
-    public List<String> getWhiteboard() {
-        List<String> filenames = fileArchiverBean.getWhiteboards().stream()
-            .map(DocumentWhiteboard::getObject)
-            .map(Document::getFilename)
-            .collect(Collectors.toList());
-        return filenames;
+    public List<DocumentWhiteboard> getWhiteboard() {
+        List<DocumentWhiteboard> whiteboards = fileArchiverBean.getWhiteboards();
+        return whiteboards;
     }
 }
 

@@ -12,12 +12,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.NONE)
 public class DocumentWhiteboard {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @XmlAttribute
     protected long id;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -25,9 +33,12 @@ public class DocumentWhiteboard {
     @Temporal(TemporalType.TIMESTAMP)
     private Date treatmentTime;
     @Enumerated(EnumType.STRING)
+    @XmlAttribute(name = "whiteboard_state")
     private State state;
+
     @JoinColumn
     @OneToOne
+    @XmlElement
     private Document object;
 
     public long getId() {
@@ -65,6 +76,4 @@ public class DocumentWhiteboard {
     public void setObject(Document object) {
         this.object = object;
     }
-
-    public enum State {WAITING, STARTING, PROCESSING, FAILURE, DONE}
 }

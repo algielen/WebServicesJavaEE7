@@ -3,13 +3,13 @@ package be.algielen.dal;
 import be.algielen.domain.User;
 import java.io.Serializable;
 import java.util.List;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
-@SessionScoped
+@RequestScoped
 @Transactional(value = Transactional.TxType.REQUIRED)
 public class UsersDaoImpl implements UsersDao, Serializable {
 

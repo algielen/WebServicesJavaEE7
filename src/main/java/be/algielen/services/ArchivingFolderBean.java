@@ -35,7 +35,7 @@ public class ArchivingFolderBean {
         }
     }
 
-    File getRootDirectory() {
+    public File getRootDirectory() {
         return rootDirectory;
     }
 
