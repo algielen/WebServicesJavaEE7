@@ -43,7 +43,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.22.2</version>
+        <version>2.19</version>
 
         <configuration>
           <argLine>-Xmx512M</argLine>
@@ -89,7 +89,7 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
-      <version>5.8.2</version>
+      <version>5.0.0</version>
       <scope>test</scope>
     </dependency>
 
@@ -158,12 +158,12 @@
         <dependency>
           <groupId>org.hibernate</groupId>
           <artifactId>hibernate-entitymanager</artifactId>
-          <version>5.6.4.Final</version>
+          <version>5.0.10.Final</version>
         </dependency>
         <dependency>
           <groupId>org.hibernate</groupId>
           <artifactId>hibernate-c3p0</artifactId>
-          <version>5.0.10.Final</version>
+          <version>5.6.4.Final</version>
         </dependency>
       </dependencies>
       <build>
